@@ -31,8 +31,8 @@ public abstract class ErraiBaseFacet extends BaseFacet
 	public DependencyInstaller installer;
 	
 	
-	abstract void installErraiDeps();
-	abstract boolean isFacetInstalled();
+	abstract protected void installErraiDeps();
+	abstract protected boolean isFacetInstalled();
 
 	public boolean install() {
 		installBaseErraiDependencies();
@@ -49,7 +49,6 @@ public abstract class ErraiBaseFacet extends BaseFacet
    /**
     * Install the maven dependencies required for Errai
     * 
-    * @param version
     */
    private void installBaseErraiDependencies()
    {

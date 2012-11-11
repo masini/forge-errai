@@ -14,7 +14,7 @@ import org.jboss.forge.shell.plugins.RequiresFacet;
 public class ErraiJaxrsFacet extends ErraiBaseFacet{
 
 	@Override
-	void installErraiDeps() {
+    protected void installErraiDeps() {
 		  String erraiVersion = Versions.getInstance().getErrai_version();
 	      List<? extends Dependency> dependencies = Arrays.asList(
 	              DependencyBuilder.create("org.jboss.errai:errai-common:" + erraiVersion),
@@ -33,7 +33,7 @@ public class ErraiJaxrsFacet extends ErraiBaseFacet{
 	}
 
 	@Override
-	boolean isFacetInstalled() {
+    protected boolean isFacetInstalled() {
         if (!project.hasFacet(ErraiJaxrsFacet.class)) {
     		return false;
         }

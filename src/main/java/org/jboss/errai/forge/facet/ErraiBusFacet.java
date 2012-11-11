@@ -9,13 +9,13 @@ import org.jboss.forge.shell.plugins.RequiresFacet;
 public class ErraiBusFacet extends ErraiBaseFacet{
 
 	@Override
-	void installErraiDeps() {
+    protected void installErraiDeps() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	boolean isFacetInstalled() {
+    protected boolean isFacetInstalled() {
         if (!project.hasFacet(ErraiBusFacet.class)) {
     		return false;
         }

@@ -1,6 +1,8 @@
 package org.jboss.errai.forge.facet;
 
 
+import org.jboss.errai.forge.facet.ui.ErraiUIFacet;
+
 /**
  * @author pslegr
  */
