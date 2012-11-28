@@ -1,0 +1,43 @@
+package com.test.view;
+
+import javax.inject.Inject;
+
+import org.jboss.errai.databinding.client.api.DataBinder;
+import org.jboss.errai.ui.shared.api.annotations.AutoBound;
+import org.jboss.errai.ui.shared.api.annotations.Bound;
+import org.jboss.errai.ui.shared.api.annotations.DataField;
+import org.jboss.errai.ui.shared.api.annotations.EventHandler;
+import org.jboss.errai.ui.shared.api.annotations.Templated;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.TextBox;
+
+import @{entity.getQualifiedName()}@{formBeanMetawidgetImports};
+
+@Templated
+public class @{entity.getName()}Form extends Composite {
+
+	@{formBeanMetawidget}
+
+    @Inject
+    @AutoBound
+    private DataBinder<@{entity.getName()}> myPOJO;
+
+	// We can also choose to instantiate our own Widgets. Injection is not
+	// required.
+
+	@DataField
+	private Button button = new Button();
+
+	@DataField
+	private Button buttonREST = new Button();
+
+	
+	@EventHandler("button")
+	void sendButtonClicked(ClickEvent event) {
+		Window.alert(myPOJO);
+	}
+}

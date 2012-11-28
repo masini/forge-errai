@@ -36,9 +36,9 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 
-@Alias("errai-ui")
-@Help("Errai-UI scaffolding")
-@RequiresFacet({ ErraiBaseFacet.class, DependencyFacet.class, WebResourceFacet.class, PersistenceFacet.class})
+//@Alias("errai-ui")
+//@Help("Errai-UI scaffolding")
+//@RequiresFacet({ ErraiBaseFacet.class, DependencyFacet.class, WebResourceFacet.class, PersistenceFacet.class})
 public class ErraiUIFacet extends ErraiBaseFacet implements ScaffoldProvider {
 
     private static final String ERRAI_APP_PROPERTIES_TEMPLATE = "/errai-ui/resources/ErraiApp.properties";
