@@ -23,7 +23,13 @@ package org.jboss.errai.forge.metawidget.config;
 
 import org.jboss.forge.env.Configuration;
 import org.jboss.forge.project.Project;
+import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.config.impl.BaseConfigReader;
+import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.util.ClassUtils;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * ConfigReader with Forge-specific features.
@@ -34,7 +40,40 @@ import org.metawidget.config.impl.BaseConfigReader;
 public class ForgeConfigReader
          extends BaseConfigReader
 {
-   //
+
+    public static class LocalResourceResolver 	implements ResourceResolver {
+
+        public InputStream openResource( String resource ) {
+
+            if ( resource == null || "".equals( resource.trim() ) ) {
+                throw InspectorException.newException(new FileNotFoundException("No resource specified"));
+            }
+
+            // Thread's ClassLoader
+
+            ClassLoader loaderContext = Thread.currentThread().getContextClassLoader();
+
+            if ( loaderContext != null ) {
+                InputStream stream = loaderContext.getResourceAsStream( resource );
+
+                if ( stream != null ) {
+                    return stream;
+                }
+            }
+
+            // Our ClassLoader
+
+            InputStream stream = getClass().getResourceAsStream( resource );
+
+            if ( stream != null ) {
+                return stream;
+            }
+
+            throw InspectorException.newException(new FileNotFoundException("Unable to locate " + resource + " on CLASSPATH"));
+        }
+    }
+
+    //
    // Private statics
    //
 
@@ -56,6 +95,8 @@ public class ForgeConfigReader
 
    public ForgeConfigReader(Configuration config, Project project)
    {
+       super(new LocalResourceResolver());
+
       this.config = config;
       this.project = project;
    }
@@ -95,4 +136,16 @@ public class ForgeConfigReader
 
       return super.createNative(name, namespace, recordedText);
    }
+
+    @Override
+    protected Class<?> lookupClass( String className, ClassLoader classLoader ) {
+
+        Class<?> aClass = ClassUtils.niceForName(className, classLoader);
+
+        if( aClass==null ) {
+            aClass = ClassUtils.niceForName(className, this.getClass().getClassLoader());
+        }
+        return aClass;
+    }
+
 }

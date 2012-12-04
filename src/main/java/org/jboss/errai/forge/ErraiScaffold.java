@@ -140,11 +140,11 @@ public class ErraiScaffold extends BaseFacet implements ScaffoldProvider
 
       this.formMetawidget = new StaticHtmlMetawidget();
       this.formMetawidget.setConfigReader(configReader);
-      this.formMetawidget.setConfig("scaffold/errai/metawidget-form.xml");
+      this.formMetawidget.setConfig("/scaffold/errai/metawidget-form.xml");
 
       this.formBeanMetawidget = new StaticJavaMetawidget();
       this.formBeanMetawidget.setConfigReader(configReader);
-      this.formBeanMetawidget.setConfig("scaffold/errai/metawidget-formbean.xml");
+      this.formBeanMetawidget.setConfig("/scaffold/errai/metawidget-formbean.xml");
 
    }
 
