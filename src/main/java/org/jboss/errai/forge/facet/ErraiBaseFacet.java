@@ -76,46 +76,50 @@ public abstract class ErraiBaseFacet extends BaseFacet
 			   gwtVersion = dep.getVersion();
 		   }
 	   } 
-	    
+
 	    DependencyBuilder gwtDependencyBuilder = DependencyBuilder.create()
 			    .setGroupId("org.codehaus.mojo")
 			    .setArtifactId("gwt-maven-plugin")
 			    .setVersion(gwtVersion);
-			     
-	    ExecutionBuilder execution = ExecutionBuilder.create()
-	    		.addGoal("resources")
-	    		.addGoal("compile");
-	    MavenPluginBuilder gwtPlugin = MavenPluginBuilder.create()
-	    		.setDependency(gwtDependencyBuilder)
-			    .createConfiguration()
-			    .createConfigurationElement("logLevel")
-			    .setText("INFO")
-			    .getParentPluginConfig().getOrigin()
-			    .createConfiguration()
-			    .createConfigurationElement("runTarget")
-			    .setText("App.html")
-			    .getParentPluginConfig().getOrigin()
-			    .createConfiguration()
-			    .createConfigurationElement("extraJvmArgs")
-			    .setText("-Xmx512m")
-			    .getParentPluginConfig().getOrigin()
-			    .createConfiguration()
-			    .createConfigurationElement("soyc")
-			    .setText("false")
-			    .getParentPluginConfig().getOrigin()
-			    .createConfiguration()
-			    .createConfigurationElement("hostedWebapp")
-			    .setText("src/main/webapp/")
-			    .getParentPluginConfig().getOrigin()
-			    .createConfiguration()
-			    .createConfigurationElement("treeLogger")
-			    .setText("true")
-			    .getParentPluginConfig().getOrigin()
-			    .addExecution(execution);	    
-	    
-	    MavenPluginFacet pluginFacet = project.getFacet(MavenPluginFacet.class);
-	    pluginFacet.addPlugin(gwtPlugin);
-	   
+
+       MavenPluginFacet pluginFacet = project.getFacet(MavenPluginFacet.class);
+
+       if( !pluginFacet.hasPlugin(gwtDependencyBuilder)) {
+           ExecutionBuilder execution = ExecutionBuilder.create()
+                   .addGoal("resources")
+                   .addGoal("compile");
+           MavenPluginBuilder gwtPlugin = MavenPluginBuilder.create()
+                   .setDependency(gwtDependencyBuilder)
+                   .createConfiguration()
+                   .createConfigurationElement("logLevel")
+                   .setText("INFO")
+                   .getParentPluginConfig().getOrigin()
+                   .createConfiguration()
+                   .createConfigurationElement("runTarget")
+                   .setText("App.html")
+                   .getParentPluginConfig().getOrigin()
+                   .createConfiguration()
+                   .createConfigurationElement("extraJvmArgs")
+                   .setText("-Xmx512m")
+                   .getParentPluginConfig().getOrigin()
+                   .createConfiguration()
+                   .createConfigurationElement("soyc")
+                   .setText("false")
+                   .getParentPluginConfig().getOrigin()
+                   .createConfiguration()
+                   .createConfigurationElement("hostedWebapp")
+                   .setText("src/main/webapp/")
+                   .getParentPluginConfig().getOrigin()
+                   .createConfiguration()
+                   .createConfigurationElement("treeLogger")
+                   .setText("true")
+                   .getParentPluginConfig().getOrigin()
+                   .addExecution(execution);
+
+           pluginFacet.addPlugin(gwtPlugin);
+       }
+
+
    }
 	
 }
