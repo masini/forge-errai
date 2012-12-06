@@ -21,6 +21,7 @@
  */
 package org.jboss.errai.forge;
 
+import org.jboss.errai.forge.facet.ui.ErraiUIFacet;
 import org.jboss.errai.forge.metawidget.config.ForgeConfigReader;
 import org.jboss.forge.env.Configuration;
 import org.jboss.forge.parser.JavaParser;
@@ -65,7 +66,8 @@ import java.util.*;
          DependencyFacet.class,
          PersistenceFacet.class,
          EJBFacet.class,
-         CDIFacet.class })
+         CDIFacet.class,
+         ErraiUIFacet.class})
 public class ErraiScaffold extends BaseFacet implements ScaffoldProvider
 {
    //
