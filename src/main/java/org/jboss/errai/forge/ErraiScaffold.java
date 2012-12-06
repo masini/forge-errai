@@ -26,10 +26,7 @@ import org.jboss.forge.env.Configuration;
 import org.jboss.forge.parser.JavaParser;
 import org.jboss.forge.parser.java.JavaClass;
 import org.jboss.forge.project.Project;
-import org.jboss.forge.project.facets.BaseFacet;
-import org.jboss.forge.project.facets.DependencyFacet;
-import org.jboss.forge.project.facets.JavaSourceFacet;
-import org.jboss.forge.project.facets.WebResourceFacet;
+import org.jboss.forge.project.facets.*;
 import org.jboss.forge.project.facets.events.InstallFacets;
 import org.jboss.forge.resources.Resource;
 import org.jboss.forge.scaffold.AccessStrategy;
@@ -55,6 +52,7 @@ import org.metawidget.util.simple.StringUtils;
 
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import java.io.File;
 import java.io.StringWriter;
 import java.util.*;
 
@@ -158,6 +156,7 @@ public class ErraiScaffold extends BaseFacet implements ScaffoldProvider
       try
       {
          JavaSourceFacet java = this.project.getFacet(JavaSourceFacet.class);
+         ResourceFacet resource = this.project.getFacet(ResourceFacet.class);
          WebResourceFacet web = this.project.getFacet(WebResourceFacet.class);
 
          loadTemplates();
@@ -179,7 +178,7 @@ public class ErraiScaffold extends BaseFacet implements ScaffoldProvider
 
          // Create formBean
          JavaClass viewBean = JavaParser.parse(JavaClass.class, this.formBeanTemplate.render(context));
-         viewBean.setPackage(java.getBasePackage() + ".view");
+         viewBean.setPackage(java.getBasePackage() + ".client.view");
          result.add(ScaffoldUtil.createOrOverwrite(this.prompt, java.getJavaResource(viewBean), viewBean.toString(),
                  overwrite));
 
@@ -197,11 +196,9 @@ public class ErraiScaffold extends BaseFacet implements ScaffoldProvider
          stringWriter = new StringWriter();
          this.formMetawidget.write(stringWriter, this.formTemplateMetawidgetIndent);
          context.put("metawidget", stringWriter.toString().trim());
-
          result.add(ScaffoldUtil.createOrOverwrite(this.prompt,
-                 web.getWebResource(targetDir + "/../java/com/test/view/" + ccEntity + ".xhtml"),
-                 this.formTemplate.render(context),
-                 overwrite));
+                 resource.getResource(viewBean.getQualifiedName().replace('.', File.separatorChar)+".html"),
+                 this.formTemplate.render(context), overwrite));
 
          this.project.getFacet(JavaSourceFacet.class).saveJavaSource(entity);
 

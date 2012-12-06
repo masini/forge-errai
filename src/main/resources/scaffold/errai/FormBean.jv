@@ -38,6 +38,6 @@ public class @{entity.getName()}Form extends Composite {
 	
 	@EventHandler("button")
 	void sendButtonClicked(ClickEvent event) {
-		Window.alert(myPOJO);
+		Window.alert("buttonClicked");
 	}
 }
